@@ -7,7 +7,8 @@ Then, refer to the SLURM Scripts.
 
 ## Data
 The data/ directory contains all measurement data relevant for the submission and a plotting script to create different plots.
-Each entry in the sorted.csv file corresponds to the averages of 10 mdtest runs.
+Each entry in the filesystems.csv file corresponds to the averages of 10 mdtest runs.
+The entries in openfoam.csv correspond to the results found in the darshan files in the data/darshan directory
 
 ## SLURM Scripts
 The slurm_scripts directory contains sample scripts of how the data was generated.

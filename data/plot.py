@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
-data = pd.read_csv('sorted.csv')
+data = pd.read_csv('filesystems.csv')
 
 #bandwidth [byte/s]
 data['bw_write'] = (data['bytes'] * data['write_mean_rate'])
@@ -60,7 +60,6 @@ def plot(name, output, plots):
             res = math.sqrt(res)
             return res
 
-        #mydata = mydata.groupby('bytes').aggregate({'density_write':'mean', 'read_mean_rate':'mean', 'read_sd_rate':mean_of_sd, 'bw_read':'mean', 'bw_write':'mean', 'density_read':'mean'})
         mydata = mydata.groupby('bytes').aggregate({
             'density_write':'mean', 
             'intensity_write':'mean', 
@@ -103,9 +102,14 @@ def plot(name, output, plots):
 
         count = count+1
 
+    if output == 'hyp5':
+        foam_data = pd.read_csv('openfoam.csv')
+        foam_data['bandwidth'] = foam_data['bandwidth'] * 1024 * 1024
+        foam_data['data_density'] = (foam_data['total_bytes'] * 1024 * 1024) / foam_data['write_operations']
 
-    #ax.plot(foam_density, foam_bw, marker='x', linestyle='', color='red')
-    #ax.plot(foam_density, foam_bw_lustre, marker='x', linestyle='', color='blue')
+        foam_data[foam_data['filesystem'] == 'tmp'].plot(x='data_density',y='bandwidth', kind='scatter', ax=ax, color='#008dff', marker='X', label='OpenFOAM local')
+        foam_data[foam_data['filesystem'] == 'beeond'].plot(x='data_density',y='bandwidth', kind='scatter', ax=ax, color='#9d2c00', marker='P', label='OpenFOAM ad-hoc')
+        foam_data[foam_data['filesystem'] == 'lustre'].plot(x='data_density',y='bandwidth', kind='scatter', ax=ax, color='#f0c571', marker='<', label='OpenFOAM parallel')
 
     plt.xscale('log',base=2)
     plt.yscale('log',base=2)
@@ -122,27 +126,27 @@ def plot(name, output, plots):
 
 #Hypothesis 1: stat/unlink
 plot('Pure Metadata Operations','hyp1',[
-    {'cluster':'claix18','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'stat', 'label':'stat'},
-    {'cluster':'claix18','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'removal', 'label':'unlink'}
+    {'cluster':'claix18','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'stat', 'label':'Stat'},
+    {'cluster':'claix18','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'removal', 'label':'Unlink'}
     ])
 
 #Hypothesis 2: read/write
 plot('Bandwidth Operations','hyp2',[
-    {'cluster':'claix23','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'read', 'label':'read'},
-    {'cluster':'claix23','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'write'}
+    {'cluster':'claix23','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'read', 'label':'Read'},
+    {'cluster':'claix23','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Write'}
     ])
 
 #Hypothesis 3a: Filesystems
 plot('Filesystem Comparison CLUSTER-2','hyp3a',[
-    {'cluster':'claix23','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'local'},
-    {'cluster':'claix23','fs':'beeond','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'ad-hoc'},
-    {'cluster':'claix23','fs':'lustre','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'parallel'}
+    {'cluster':'claix23','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Local'},
+    {'cluster':'claix23','fs':'beeond','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Ad-hoc'},
+    {'cluster':'claix23','fs':'lustre','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Parallel'}
     ])
 
 plot('Filesystem Comparison CLUSTER-1','hyp3a1',[
-    {'cluster':'claix18','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'local'},
-    {'cluster':'claix18','fs':'beeond','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'ad-hoc'},
-    {'cluster':'claix18','fs':'lustre','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'parallel'}
+    {'cluster':'claix18','fs':'tmp','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Local'},
+    {'cluster':'claix18','fs':'beeond','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Ad-hoc'},
+    {'cluster':'claix18','fs':'lustre','n_tasks':1,'n_nodes':1,'n_files':1000,'operation':'write', 'label':'Parallel'}
     ])
 
 #Hypothesis 3b: Node Counts
@@ -166,7 +170,7 @@ plot('Caching Comparison', 'hyp4',[
 
 #Hypothesis 5: OpenFOAM
 plot('OpenFOAM Motorbike Rooflines', 'hyp5', [
-    {'cluster':'claix23','fs':'lustre','n_tasks':96, 'n_nodes':1, 'operation':'write', 'label':'Parallel'},
+    {'cluster':'claix23','fs':'tmp','n_tasks':96, 'n_nodes':1, 'operation':'write', 'label':'Local'},
     {'cluster':'claix23','fs':'beeond','n_tasks':96, 'n_nodes':1, 'operation':'write', 'label':'Ad-Hoc'},
-    {'cluster':'claix23','fs':'tmp','n_tasks':96, 'n_nodes':1, 'operation':'write', 'label':'Local'}
+    {'cluster':'claix23','fs':'lustre','n_tasks':96, 'n_nodes':1, 'operation':'write', 'label':'Parallel'},
     ])
