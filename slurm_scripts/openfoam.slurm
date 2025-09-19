@@ -1,4 +1,4 @@
-#!/usr/local_rwth/bin/zsh
+#!/usr/local/bin/zsh
 
 #SBATCH --nodes=1
 #SBATCH --exclusive
