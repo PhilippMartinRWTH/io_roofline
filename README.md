@@ -1,4 +1,9 @@
-# Data Repository for "Optimising HPC Filesystem Choices with Bandwidth-Centric I/O Rooflines"
+# Optimising HPC Filesystem Choices with Bandwidth-Centric I/O Rooflines
+This is the data repository for the paper "Optimising HPC Filesystem Choices with Bandwidth-Centric I/O Rooflines", submitted to HPC Asia 2026.
+
+## Reproduction
+To reproduce the experiments, install [mdtest](https://github.com/hpc/ior) and the [ESI-OpenCFD](https://www.openfoam.com/) version 2406 of OpenFOAM.
+Then, refer to the SLURM Scripts.
 
 ## Data
 The data/ directory contains all measurement data relevant for the submission and a plotting script to create different plots.
