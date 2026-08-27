@@ -42,6 +42,8 @@ get_cifar () {
     source cifar_venv/bin/activate
 
     pip install torch
+    pip install torchvision
+    pip install numpy
     deactivate
 
     cd ${BASEDIR}

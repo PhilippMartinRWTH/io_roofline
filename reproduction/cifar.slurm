@@ -20,9 +20,8 @@ FS=__FS_PATH__
 BASEDIR=${PWD}
 
 ### Preparing the input data
-mkdir -p ${FS}/imagenet
-cp -r __IMAGENET_PATH__/* ${FS}/imagenet
-cd ${FS}/imagenet
+mkdir -p ${FS}/cifar
+cd ${FS}/cifar
 
 ### Load the venv
 source ${BASEDIR}/prerequisites/cifar/cifar_venv/bin/activate

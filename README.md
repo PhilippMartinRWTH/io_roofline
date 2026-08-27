@@ -55,11 +55,11 @@ Note that reproduction is on a per-filesystem basis, i.e. if you want to test di
 
 ### Analysis
 Once all the jobs have completed, you should have a number of output text files in the `outputs` directory and darshan binary files in the `darshan_outputs` directory.
-Execute `process_data.py` to process the data from these files into `*.csv` format.
-
-You can then either manually inspect that data or refer to the Data section below on how to produce graphs like in the paper from that data.
+From this data, the `*.csv` files analogous to those in the `data` directory can be obtained.
 
 ## Data
 The data/ directory contains all measurement data relevant for the submission and plotting scripts to create different plots.
 
 ### Plotting
+Simply execute the provided python scripts to generate plots from the data.
+Refer to the data formats in the provided `*.csv` files if you want to add your own data.
