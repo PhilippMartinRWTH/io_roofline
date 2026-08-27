@@ -25,6 +25,11 @@ The `get_prerequisites.sh` shell script will install the rest of the necessary s
 * The script at https://github.com/pytorch/examples/tree/main/imagenet
 * The script at https://github.com/weiaicunzai/pytorch-cifar100
 
+```
+cd reproduction
+./get_prerequisites.sh
+```
+
 ### Execution / Scheduling
 Before you execute the script, please make sure that any module/environment variables are set up correctly.
 For reference, the authors executed the commands with the following compilers and toolchains:
@@ -38,6 +43,7 @@ in the `*.slurm` scripts.
 
 In order to run the reproduction, you will have to provide some information to the `schedule_jobs.sh` script:
 ```
+cd reproduction
 ./schedule_jobs.sh --fs-path </PATH/TO/FS/ROOT> --fs-name <FS_NAME> --imagenet-path </PATH/TO/IMAGENET>
 ```
 Here,

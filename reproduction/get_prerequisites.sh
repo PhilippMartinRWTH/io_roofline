@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/usr/bin/env zsh
 set -e
 BASEDIR=${PWD}
 
@@ -89,8 +89,8 @@ mkdir -p prerequisites
 mkdir -p outputs
 mkdir -p darshan_outputs
 
-get_darshan()
-get_ior()
-get_cifar()
-get_imagenet()
-get_openfoam()
+get_darshan
+get_ior
+get_cifar
+get_imagenet
+get_openfoam
